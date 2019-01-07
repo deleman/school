@@ -1,0 +1,50 @@
+<fieldset class=".one" >
+    <div class="form-group text-right" id="fieldset" >
+        <label for="disabledSelect">عنوان انتخاب اول</label>
+        <select id="myselect" class="form-control">
+            <option value="1">html</option>
+            <option value="2">css</option>
+            <option value="3">php</option>
+            <option value="4">mysql</option>
+        </select>
+    </div>
+</fieldset>
+
+
+ajaxfunton(){
+    let a = $( id+" option:selected" ).val();
+    console.log(a);
+    $.ajax({
+        method: "POST",
+        url: "process.php",
+        data: { name: a}
+      })
+        .done(function( msg ) {
+            console.log(msg);
+            let data =msg.split(',');
+            console.log(data);
+            console.log(data.length);
+            let s;
+                for(let i=0;i<=data.length;i+=7){
+                    let r='';
+                    let code='';
+                    for(let j =i;j<i+7;j++){
+                        if(j%7 ==0){
+                            code=data[j];
+                        }else{
+                            
+                            r+=data[j]+" - ";
+                        }
+                        // r+=data[j]+'('+j+')'+" - ";
+                    }
+                        s+="<option value='"+code+"'>"+r+"</option> ";
+
+                }
+                create_inputs(s,bookCount);
+                create_inputs(s,bookCount);
+                create_inputs(s,bookCount);
+
+           
+            // alert(msg);
+        });
+}

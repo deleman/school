@@ -7,8 +7,7 @@
         <title>پیش انتخاب واحد</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style.css" rel="stylesheet">
-        <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <?php require_once('./theme/header.php'); ?>   
     </head>
     <body class="container-fluid" id="SlateBlue">
         <header class="row" id="header">
@@ -72,10 +71,8 @@
         </section>
 
 
-    <script src="./node_modules/jquery/dist/jquery.js"></script>
-    <!-- <script src="./node_modules/jquery-ui/ui/jquery-1-7.js"></script> -->
-    <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="js/index.js"></script>
+            <!-- include footer page -->
+            <?php include_once('./theme/footer.php'); ?>
     <?php  if(isset($_GET['alert'])){   echo "<script>
                     $(document).ready(function(){
                         $('#newModal').modal('show');
