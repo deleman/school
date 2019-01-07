@@ -7,7 +7,7 @@ $(document).ready(function(){
 
     //show term name
 
-    add_inputs("#term_name",bookCount,"term_name.php");
+    // add_inputs("#term_name",bookCount,"term_name.php");
 
 
 
@@ -17,19 +17,30 @@ $(document).ready(function(){
     //     }});
     //   });
 
-    selectChange("#intry");
-    selectChange('#myselect');
+    selectChange("#intry","#term_name","#intry");
+    selectChange("#intry","#term_name","#term_name");
+    // selectChange('#myselect');
 
 
 //function selection ajax change options
-function selectChange(id){
-    $(id).change(function(){
-        bookCount.name=0;
-        //remove all
-        remove_inputs();
-        get_ajax_info(id,bookCount);
+function selectChange(id1,id2,id3){
+    if(id1==id3)
+        $(id1).change(function(){
+            bookCount.name=0;
+            //remove all
+            remove_inputs();
+            get_ajax_info(id1,id2,bookCount);
 
-    });
+        });
+
+    if(id2==id3)
+        $(id2).change(function(){
+            bookCount.name=0;
+            //remove all
+            remove_inputs();
+            get_ajax_info(id1,id2,bookCount);
+
+        });
 }
 
     //finish jquery
@@ -60,16 +71,18 @@ function remove_inputs(){
     $(".remove_inputs").children().remove();
 }
 
-function get_ajax_info(id,bookCount){
-    let a = $( id+" option:selected" ).val();
-    //console.log(a);
+function get_ajax_info(id1,id2,bookCount){
+    let a = $( id1+" option:selected" ).val();
+    let b = $(id2+" option:selected" ).val();
+    console.log(a,b);
     $.ajax({
         method: "POST",
         url: "process.php",
-        data: { name: a}
+        data: { name: a,term_name: b}
       })
         .done(function( msg ) {
-            //console.log(msg);
+
+            console.log(msg);
             let data =msg.split(',');
             //console.log(data);
             //console.log(data.length);
@@ -98,13 +111,16 @@ function get_ajax_info(id,bookCount){
         });
 }
 
+//get input selection with ajax from process.php
 function add_inputs(id,bookCount,href){
     let a = $( id+" option:selected" ).val();
+    let b = $("#term_name option:selected" ).val();
+
     //console.log(a);
     $.ajax({
         method: "POST",
         url: href,
-        data: { name: a}
+        data: { name: a,term_name: b}
       })
         .done(function( msg ) {
             //console.log(msg);

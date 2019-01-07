@@ -1,10 +1,6 @@
 <?php
 require_once('./lib/database.php');
-if(isset($_POST['name'])){
-    // echo 'you are sented '.$_POST['name'];
-}else{
-    // echo 'your are not sent anything';
-}
+
 
 class process{
     private $db;
@@ -32,9 +28,20 @@ class process{
     }
 
     //retrive all data from specefic table year
-    public function get_all_info($year){
-        $year = trim(htmlspecialchars($year));
-        $sql = "SELECT * FROM $year";
+    public function get_all_info($year,$tem_name=0,$all=false){
+        $year = $this->validate_inpus($year);
+        $term_name = $this->validate_inpus($tem_name);
+        $sql;
+        if($term_name){
+            if($all==false){
+                $sql = "SELECT * FROM $year WHERE term_name= $term_name";
+            }else{
+                $sql = "SELECT * FROM $year WHERE term_name != $term_name";
+
+            }
+        }else{
+            $sql = "SELECT * FROM $year";
+        }
         $this->db->query($sql);
         $r= $this->db->resultSet();
         $h=Array();
@@ -48,7 +55,10 @@ class process{
             array_push($h,' نوع کتاب '.$value->book_type);
         }
         
-        echo implode(',',$h);
+        return $h;
+    }
+    public function validate_inpus($value){
+        return htmlspecialchars(htmlentities(trim($value)));
     }
     
    
@@ -59,4 +69,22 @@ $proc = new process();
 // echo $_POST['name'].'<br >';
 // var_dump($proc->is_exist_table($_POST['name']));
 
-($proc->get_all_info($_POST['name']));
+if(isset($_POST['name'])){
+    
+    $a=($proc->get_all_info($_POST['name']));
+    echo implode(',',$a);
+    
+    if(isset($_POST['term_name'])){
+        if(strlen($_POST['term_name']) == 25){
+            
+        }else{
+        $a=($proc->get_all_info($_POST['name'],$_POST['term_name']));
+            
+        $b=($proc->get_all_info($_POST['name'],$_POST['term_name'],true));
+            
+            echo implode(',',array_merge($a,$b));
+        }
+
+    }
+
+}

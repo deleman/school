@@ -26,22 +26,25 @@
 
                 <form class="form-inline ">
                     
-
-
-                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">وروی سال</label>
+                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">ورودی سال</label>
                     <select class="custom-select my-1 mr-sm-2" id="intry">
-                        <option selecte>انتخاب کنید...</option>
+                        <option selecte value="">انتخاب کنید...</option>
                         <option value="year_94_95">94-95</option>
                         <option value="year_95_96">95-96</option>
                         <option value="year_96_97">96-97</option>
                     </select>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">پیش انتخاب واحد برای ترم </label>
+                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">انتخاب کتاب از ترم</label>
                     <select class="custom-select my-1 mr-sm-2" id="term_name">
                         <option selected>انتخاب کنید....</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="1">یک</option>
+                        <option value="2">دو</option>
+                        <option value="3">سه</option>
+                        <option value="4">چهار</option>
+                        <option value="5">پنج</option>
+                        <option value="6">شش</option>
+                        <option value="7">هفت</option>
+                        <option value="8">هشت</option>
                     </select>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </form>
