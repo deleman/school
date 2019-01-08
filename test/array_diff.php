@@ -1,8 +1,20 @@
 <?php
 
-$term_names=[1,2,3,4,5,6,7,8];
+$input =[3,2,1];
+$main=[1,3,0,0,0,0,0,0,0,0];
 
-$result = array_diff($term_names,[3]);
-
+function solve($input,$main){
+    $in = count($input);
+    $mi = count($main);
+    $rem =$mi-$in;
+    if($rem){
+        for($i=0;$i<$in;$i++){
+            $main[$i] = $input[$i];
+        }
+        return $main;
+    }
+}
 echo '<pre>';
-print_r($result);
+print_r($input);
+print_r($main);
+print_r(solve($input,$main));

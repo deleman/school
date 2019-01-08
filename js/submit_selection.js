@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var bookCount ={name:96};
+    var bookCount ={name:0};
     $("#add_selection").click(function(e){
         e.preventDefault();
         add_inputs("#intry",bookCount,"process.php");
@@ -28,7 +28,7 @@ $(document).ready(function(){
 function selectChange(id1,id2,id3){
     if(id1==id3)
         $(id1).change(function(){
-            bookCount.name=96;
+            bookCount.name=0;
             //remove all
             remove_inputs();
             get_ajax_info(id1,id2,bookCount);
@@ -37,7 +37,7 @@ function selectChange(id1,id2,id3){
 
     if(id2==id3)
         $(id2).change(function(){
-            bookCount.name=96;
+            bookCount.name=0;
             //remove all
             remove_inputs();
             get_ajax_info(id1,id2,bookCount);
@@ -49,14 +49,14 @@ function selectChange(id1,id2,id3){
 });
 function addBook(bookCount){
     bookCount.name+=1;
-    return String.fromCharCode(bookCount.name);
+    return bookCount.name;
 }
 
 //function for append input books
 function create_inputs(s,bookCount){
     let input;
     input='<div class="alert alert-warning alert-dismissible fade show" role="alert">';
-        input+='<select class="custom-select" name="a[]" id="inputGroupSelect02">';
+        input+='<select class="custom-select" name="mybook'+addBook(bookCount)+'" id="inputGroupSelect02">';
             input+=s;
         input+='</select>';
         input+='<button type="button" class="close" data-dismiss="alert" id="closealert" aria-label="Close">';
@@ -101,7 +101,7 @@ function get_ajax_info(id1,id2,bookCount){
                         }
                         // r+=data[j]+'('+j+')'+" - ";
                     }
-                        s+="<option value='"+code+"'>"+r+"</option> ";
+                        s+="<option value='"+addBook(bookCount)+"'>"+r+"</option> ";
 
                 }
                 create_inputs(s,bookCount);

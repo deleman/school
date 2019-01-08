@@ -1,3 +1,8 @@
+<?php
+    require_once('./submit_process.php');
+    $submit = new submit();
+    $submit->insert_info($_POST);
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -60,7 +65,7 @@
                 
                 <button type="submit"  class="btn btn-info ml-2 mt-3 mb-5" id="add_selection">افزودن</button>
                 <button type="submit"  class="btn btn-primary ml-3 mt-3 mb-5" >ثبت اطلاعات</button>
-
+                
 
                 </form>       
 
@@ -77,8 +82,10 @@
         <section>
         <?php
             require_once('./theme/footer.php');
-            add_index_file(true);
+            add_index_file(false);
         ?>
+        <script src="./js/submit_selection.js"></script>
         </div>
+
     </body>
 </html>
