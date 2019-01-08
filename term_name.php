@@ -17,8 +17,7 @@ class term_name{
         foreach ($r as $key => $value) {
             array_push($tables,$value->table_name);
         }
-        return $tables;
-        
+        return $tables;  
     }
 }
 

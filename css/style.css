@@ -62,4 +62,15 @@ body{
     direction: rtl;
 }
 
+/* for navbar pag */
+.navbar-light .navbar-nav .nav-link{
+    background-color: inherit !important;
+}
+.navbar-light .navbar-nav .nav-link:hover{
+    background-color:slateblue !important;
+}
+.navbar a{
+    color:rgb(196, 203, 207) !important;
+}
+
 

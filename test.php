@@ -1,7 +1,6 @@
 <?php
     require_once('sign_in.php');
 if(isset($_POST['submit_sign_in'])){
-
     $infos = new sign();
     
     if(!( $infos->is_subscriber($_POST))){

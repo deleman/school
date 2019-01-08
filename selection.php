@@ -26,7 +26,7 @@
 
             <article class="container row pt-2">
 
-                <form class="form-inline ">
+                <div class="form-inline ">
                     
                     <label class="my-1 mr-2" for="inlineFormCustomSelectPref">ورودی سال</label>
                     <select class="custom-select my-1 mr-sm-2" id="intry">
@@ -49,23 +49,21 @@
                         <option value="8">هشت</option>
                     </select>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </form>
+                <div>
             </article>
             <hr color="orange">
             <!-- finish head selection -->
 
             <article calss="row mb-5">  
-            <form action="submit_selection.php" method="POST" class="pb-5" id="form_inputs">
+            <form action="test/submit.php" method="post" class="pb-5" id="form_inputs">
            
                 <div class="remove_inputs">
                 </div>
                 
                 <button type="submit"  class="btn btn-info ml-2 mt-3 mb-5" id="add_selection">افزودن</button>
-                <button type="submit"  class="btn btn-primary ml-3 mt-3 mb-5" >ثبت اطلاعات</button>
-
-
-                </form>       
-
+                <button type="submit" name="submit_selection"  class="btn btn-primary ml-3 mt-3 mb-5" >ثبت اطلاعات</button>
+        </form>
+                  
             </article>
 
             <article>    

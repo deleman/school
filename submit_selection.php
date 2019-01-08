@@ -1,7 +1,7 @@
-<?php
-    require_once('./submit_process.php');
-    $submit = new submit();
-    $submit->insert_info($_POST);
+<?php foreach($_POST as $value){
+    print_r($value);
+} 
+echo "<h1>hi</h1";
 
 ?>
 <!DOCTYPE html>
@@ -12,20 +12,40 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php
             require_once('./theme/header.php');
+            
             echo $_SESSION['user_id'];
+            //show proccess in here 
+            require_once('./submit_process.php');
+            $submit = new submit();
+
+            if(isset($_POST['submit_selection'])){
+                echo 'true';
+                
+                $submit->insert_info($_POST);
+            }else{
+                echo 'false';
+            }
+            $submit->show_info();
+
         ?>
     </head>
     <body>
-    <body class="container-fluid" id="SlateBlue">
+    <body class="container-fluid" id="SlateBlue">            
+        
         <div id="app">
-        <header class="row" id="header">
-            <div class="text-justify col-6">
-                <h4 class="p-3 m-3 mr-4 text-light">پیش انتخاب واحد </h4>
-            </div>
-            <div class="col-6">
-                <h4 class="p-3 m-3 mr-4 text-light">رشته کامپیوتر</h4>
-            </div>
-        </header>
+
+        <?php require_once('./theme/navbar.php');  ?>
+            <?php
+            //call function menues
+            navbar_start();
+                navbar_link('ثبت اطلاعات','selection.php',true);
+                navbar_link('اطلاعات من','submit_selection.php',true);
+                navbar_link(' نمایش کلی','#',true);
+                navbar_link('  راهنما','#',true);
+
+            navbar_destroy();
+            ?>
+
 
         <section class="container selection_body mt-4">
 
@@ -63,6 +83,9 @@
             <form action="submit_selection.php" method="POST" class="pb-5" id="form_inputs">
            
                 <div class="remove_inputs">
+                    <div class="alert alert-info text-right" role="alert">
+                        <?php echo '<pre>';print_r($submit->show_info()); echo '</pre>';?>
+                    </div>
                 </div>
                 
                 <button type="submit"  class="btn btn-info ml-2 mt-3 mb-5" id="add_selection">افزودن</button>
