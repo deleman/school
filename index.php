@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php require_once('./theme/header.php'); 
             require_once('test.php');
-            echo $_SESSION['user_id'];
+           
         ?>   
     </head>
     <body class="container-fluid" id="SlateBlue">
@@ -39,30 +39,30 @@
             </div>
         <?php } ?>
             <article id="body" class="col-lg-7 col-md-9 col-sm-10 m-auto bg-light">
-            <form action="test.php" method="POST" class="text-right m-5 pt-2" >
+            <form action="selection.php" method="POST" class="text-right m-5 pt-2" >
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-4 col-md-3 col-form-label mycolor">نام</label>
                     <div class="col-sm-8 col-md-9">
-                    <input type="text" name="name" class="form-control" id="inputEmail3" placeholder="نام ...">
+                    <input type="text" name="name" class="form-control" id="inputEmail3" placeholder="محمد">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-4 col-md-3 col-form-label mycolor font-weight-bold">نام خانوادگی</label>
                     <div class="col-sm-8 col-md-9">
-                    <input type="text" name="lname" class="form-control" id="inputEmail3" placeholder="نام خانوادگی...">
+                    <input type="text" name="lname" class="form-control" id="inputEmail3" placeholder="راوند">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputPassword3" class="col-sm-4 col-md-3 col-form-label mycolor">شماره دانشجویی</label>
                     <div class="col-sm-8 col-md-9">
-                    <input type="password" name="number" class="form-control" id="inputPassword3" placeholder="شماره دانجویی...">
+                    <input type="password" name="number" class="form-control" id="inputPassword3" placeholder="950238032">
                     </div>
                 </div>
                 
                 
                 <div class="form-group row">
                     <div class="col-md-4 col-sm-5  m-auto">
-                        <button type="submit" name="submit" class="btn btn-primary w-100">ورود</button>
+                        <button type="submit" name="submit_sign_in" class="btn btn-primary w-100">ورود</button>
                     </div>
                 </div>
                 </form>

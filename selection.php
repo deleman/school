@@ -6,6 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php
             require_once('./theme/header.php');
+            require_once('test.php');
+            // echo 'session'.$_SESSION['user_id'].'<br ';
         ?>
     </head>
     <body>

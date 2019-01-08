@@ -1,10 +1,11 @@
 <?php
     require_once('sign_in.php');
-if(isset($_POST['submit'])){
+if(isset($_POST['submit_sign_in'])){
 
     $infos = new sign();
     
     if(!( $infos->is_subscriber($_POST))){
+        
         function alert(){
             ?>
                         <!-- Large modal
@@ -20,8 +21,13 @@ if(isset($_POST['submit'])){
         <?php        
         }
     }
-    // $infos->validate_user('https://www.google.com','http://localhost:8080/u1/index.php?alert=true');
-    $infos->validate_user('http://localhost:8080/u1/index.php?alert=true','https://www.google.com');
+    if(isset($_SESSION['user_id'])){
+        // echo 'true';
+    }else{
+        $_SESSION['user_id']=$infos->get_user_id();
+    }
+    
+    $infos->validate_user('http://localhost:8080/u1/selection.php','http://localhost:8080/u1/index.php?alert=true');
 
 }else{
     
