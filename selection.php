@@ -25,35 +25,37 @@
         <section class="container selection_body mt-4">
 
         <form action="test/submit.php" method="post" class="pb-5" id="form_inputs">
-            <div class="container row pt-2">
+        <article class="container row pt-2">
 
-                <div class="form-inline ">
-                    
-                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">ورودی سال</label>
-                    <select class="custom-select my-1 mr-sm-2" name="a[]" id="intry">
-                        <option selecte value="">انتخاب کنید...</option>
-                        <option value="year_94_95">94-95</option>
-                        <option value="year_95_96">95-96</option>
-                        <option value="year_96_97">96-97</option>
-                    </select>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">انتخاب کتاب از ترم</label>
-                    <select class="custom-select my-1 mr-sm-2"  name="a[]" id="term_name">
-                        <option selected>انتخاب کنید....</option>
-                        <option value="1">یک</option>
-                        <option value="2">دو</option>
-                        <option value="3">سه</option>
-                        <option value="4">چهار</option>
-                        <option value="5">پنج</option>
-                        <option value="6">شش</option>
-                        <option value="7">هفت</option>
-                        <option value="8">هشت</option>
-                    </select>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <div>
+            <div class="form-inline ">
+                
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">ورودی سال</label>
+                <select class="custom-select my-1 mr-sm-2" name="name[]" id="intry">
+                    <option selecte value="">انتخاب کنید...</option>
+                    <option value="year_94_95">94-95</option>
+                    <option value="year_95_96">95-96</option>
+                    <option value="year_96_97">96-97</option>
+                </select>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label class="my-1 mr-2" name="name[]" for="inlineFormCustomSelectPref">انتخاب کتاب از ترم</label>
+                <select class="custom-select my-1 mr-sm-2" id="term_name">
+                    <option selected>انتخاب کنید....</option>
+                    <option value="1">یک</option>
+                    <option value="2">دو</option>
+                    <option value="3">سه</option>
+                    <option value="4">چهار</option>
+                    <option value="5">پنج</option>
+                    <option value="6">شش</option>
+                    <option value="7">هفت</option>
+                    <option value="8">هشت</option>
+                </select>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div>
+            </article>
             <hr color="orange">
             <!-- finish head selection -->
-            </div>
+            <!-- finish head selection -->
+
             <div calss="row mb-5">  
            
                 <div class="remove_inputs">
