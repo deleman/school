@@ -2,6 +2,7 @@
     require_once('./submit_process.php');
     $submit = new submit();
     $submit->insert_info($_POST);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +12,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php
             require_once('./theme/header.php');
+            echo $_SESSION['user_id'];
         ?>
     </head>
     <body>

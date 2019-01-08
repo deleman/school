@@ -3,7 +3,7 @@
 if(isset($_POST['submit'])){
 
     $infos = new sign();
-
+    
     if(!( $infos->is_subscriber($_POST))){
         function alert(){
             ?>
@@ -20,7 +20,9 @@ if(isset($_POST['submit'])){
         <?php        
         }
     }
-    $infos->validate_user('https://www.google.com','http://localhost:8080/u1/index.php?alert=true');
+    // $infos->validate_user('https://www.google.com','http://localhost:8080/u1/index.php?alert=true');
+    $infos->validate_user('http://localhost:8080/u1/index.php?alert=true','https://www.google.com');
+
 }else{
     
 }

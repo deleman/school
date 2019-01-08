@@ -1,5 +1,5 @@
 <?php
-
+echo $_session['user_id'];
 $input =[3,2,1];
 $main=[1,3,0,0,0,0,0,0,0,0];
 

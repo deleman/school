@@ -26,12 +26,13 @@ class sign{
             array_push($user_infos,$value->name);
             array_push($user_infos,$value->fname);
             array_push($user_infos,$value->number);
+            
         }
 
         $this->name = $this->validate_inpus($infos['name']);
         $this->lname = $this->validate_inpus($infos['lname']);
         $this->number = $this->validate_inpus($infos['number']);
-        
+        echo $this->get_user_id($this->name,$this->lname,$this->number);
         //if data in database or validate
         if(in_array($this->name,$user_infos)){
             echo 'name is <br >';
@@ -63,6 +64,16 @@ class sign{
 
     public function validate_inpus($value){
         return htmlspecialchars(htmlentities(trim($value)));
+    }
+
+    public function get_user_id($name,$lname,$number){
+        $sql = "SELECT id FROM users WHERE name=:name,fname=:lname,number=:number";
+        $this->db->query($sql);
+        $this->db->bind(':name',$name,PDO::PARAM_STR);
+        $this->db->bind(':fname',$lname,PDO::PARAM_STR);
+        $this->db->bind(':number',$number,PDO::PARAM_STR);
+        return $this->db->resultSet();
+          
     }
 
 

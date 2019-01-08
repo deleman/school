@@ -1,13 +1,13 @@
-<?php
-    require_once('test.php');
-?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>پیش انتخاب واحد</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?php require_once('./theme/header.php'); ?>   
+        <?php require_once('./theme/header.php'); 
+            require_once('test.php');
+            echo $_SESSION['user_id'];
+        ?>   
     </head>
     <body class="container-fluid" id="SlateBlue">
         <header class="row" id="header">
