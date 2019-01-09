@@ -4,43 +4,93 @@ require_once('./lib/database.php');
 class submit{
     private $pdo;
     private $sql="select";
-    private $main =[1,2,3,null,null,null,null,null,null,null,null];
+    private $base =[1,2,3,null,null,null,null,null,null,null,null];
+    private $main =Array();
+    private $term_name;
     public function __construct(){
         $this->pdo= new Database();
     }
     //insert info to the database
     public function insert_info($info){
-        print_r($info);
-        $info = $this->solve($info['a'],$this->main);
-        $sql = "INSERT INTO `books_info` (`user_id`,`term_name`, `bokk_1`, `bokk_2`, `bokk_3`, `bokk_4`, `bokk_5`, `bokk_6`, `bokk_7`, `bokk_8`, `bokk_9`, `bokk_10`) VALUES (:user_id,:term_name,:b_1,:b_2, :b_3, :b_4, :b_5, :b_6, :b_7, :b_8, :b_9, :b_10)";
-        // $sql = "INSERT INTO `books_info` (`id`, `user_id`, `bokk_1`, `bokk_2`, `bokk_3`) VALUES (:id, :user_id,:ba, :bb, :bc)";
-        try{
-        $this->pdo->query($sql);
-        $this->pdo->bind(':user_id',$_SESSION['user_id'],PDO::PARAM_INT);
-        $this->pdo->bind(':term_name','',PDO::PARAM_INT);
-        $this->pdo->bind(':b_1',$this->main[0],PDO::PARAM_INT);
-        $this->pdo->bind(':b_2',$this->main[1],PDO::PARAM_INT);
-        $this->pdo->bind(':b_3',$this->main[2],PDO::PARAM_INT);
-        $this->pdo->bind(':b_4',$this->main[3],PDO::PARAM_INT);
-        $this->pdo->bind(':b_5',$this->main[4],PDO::PARAM_INT);
-        $this->pdo->bind(':b_6',$this->main[5],PDO::PARAM_INT);
-        $this->pdo->bind(':b_7',$this->main[6],PDO::PARAM_INT);
-        $this->pdo->bind(':b_8',$this->main[7],PDO::PARAM_INT);
-        $this->pdo->bind(':b_9',$this->main[8],PDO::PARAM_INT);
-        $this->pdo->bind(':b_10',$this->main[9],PDO::PARAM_INT);
-        if($this->pdo->execute()){
-            echo 'ture';
+        if(count($this->show_info())){
+            //your are inserted before
+            //should update it
+            echo 'cout it has <br>';
+            $this->term_name =array_shift($info['a']);
+            $this->main=$info['a'];
+            $count_info =count($info['a']);
+            echo 'cout is =>'.$count_info.'<br >';
+            for($i=$count_info;$i<count($this->base);$i++){
+                array_push($this->main,0);
+            }
+            echo '<pre>';
+                print_r($info);
+                print_r($this->main);
+
+            echo '</pre>';
+            // $info = $this->solve($info['a'],$this->main);
+            $sql = "UPDATE `books_info` SET `term_name`=:term_name,`bokk_1`=:b_1,`bokk_2`=:b_2,
+            `bokk_3`=:b_3,`bokk_4`=:b_4,
+            `bokk_5`=:b_5,`bokk_6`=:b_6,`bokk_7`=:b_7, `bokk_8`=:b_8,
+            `bokk_9`=:b_9,`bokk_10`=:b_10 WHERE `user_id`=:user_id
+            ";
+            try{
+            $this->pdo->query($sql);
+            $this->pdo->bind(':term_name',$this->term_name,PDO::PARAM_STR);
+            $this->pdo->bind(':b_1',$this->main[0],PDO::PARAM_INT);
+            $this->pdo->bind(':b_2',$this->main[1],PDO::PARAM_INT);
+            $this->pdo->bind(':b_3',$this->main[2],PDO::PARAM_INT);
+            $this->pdo->bind(':b_4',$this->main[3],PDO::PARAM_INT);
+            $this->pdo->bind(':b_5',$this->main[4],PDO::PARAM_INT);
+            $this->pdo->bind(':b_6',$this->main[5],PDO::PARAM_INT);
+            $this->pdo->bind(':b_7',$this->main[6],PDO::PARAM_INT);
+            $this->pdo->bind(':b_8',$this->main[7],PDO::PARAM_INT);
+            $this->pdo->bind(':b_9',$this->main[8],PDO::PARAM_INT);
+            $this->pdo->bind(':b_10',$this->main[9],PDO::PARAM_INT);
+            $this->pdo->bind(':user_id',$_SESSION['user_id'],PDO::PARAM_INT);
+
+            if($this->pdo->execute()){
+                echo 'ture';
+            }else{
+                echo 'false';
+            }
+        }catch (PDOException $e) {
+        //    echo $e->getMessage(); 
+            }
         }else{
-            echo 'false';
+            //you should insert data in to database
+            $this->term_name =array_shift($info['a']);
+            $this->main=$info['a'];
+            $count_info =count($info['a']);
+            for($i=$count_info;$i<count($this->base);$i++){
+                array_push($this->main,0);
+            }
+            // $info = $this->solve($info['a'],$this->main);
+            $sql = "INSERT INTO `books_info` (`user_id`,`term_name`, `bokk_1`, `bokk_2`, `bokk_3`, `bokk_4`, `bokk_5`, `bokk_6`, `bokk_7`, `bokk_8`, `bokk_9`, `bokk_10`) VALUES (:user_id,:term_name,:b_1,:b_2, :b_3, :b_4, :b_5, :b_6, :b_7, :b_8, :b_9, :b_10)";
+            // $sql = "INSERT INTO `books_info` (`id`, `user_id`, `bokk_1`, `bokk_2`, `bokk_3`) VALUES (:id, :user_id,:ba, :bb, :bc)";
+            try{
+            $this->pdo->query($sql);
+            $this->pdo->bind(':user_id',$_SESSION['user_id'],PDO::PARAM_INT);
+            $this->pdo->bind(':term_name',$this->term_name,PDO::PARAM_STR);
+            $this->pdo->bind(':b_1',$this->main[0],PDO::PARAM_INT);
+            $this->pdo->bind(':b_2',$this->main[1],PDO::PARAM_INT);
+            $this->pdo->bind(':b_3',$this->main[2],PDO::PARAM_INT);
+            $this->pdo->bind(':b_4',$this->main[3],PDO::PARAM_INT);
+            $this->pdo->bind(':b_5',$this->main[4],PDO::PARAM_INT);
+            $this->pdo->bind(':b_6',$this->main[5],PDO::PARAM_INT);
+            $this->pdo->bind(':b_7',$this->main[6],PDO::PARAM_INT);
+            $this->pdo->bind(':b_8',$this->main[7],PDO::PARAM_INT);
+            $this->pdo->bind(':b_9',$this->main[8],PDO::PARAM_INT);
+            $this->pdo->bind(':b_10',$this->main[9],PDO::PARAM_INT);
+            if($this->pdo->execute()){
+                // echo 'ture';
+            }else{
+                echo 'false';
+            }
+        }catch (PDOException $e) {
+        //    echo $e->getMessage(); 
+            }
         }
-    }catch (PDOException $e) {
-       echo $e->getMessage(); 
-        }
-        echo '<pre>';
-        /* print_r($info);
-        print_r($info[a]);  
-        $this->sql += $this->solve_problom($info[a][2]); 
-        echo $this->sql; */
 
     }
     public function solve_problom($problem){
@@ -95,8 +145,10 @@ class submit{
 
             
         }
+        array_shift($info);
         return ($info);
     }
+
     function solve($input,$main){
         $in = count($input);
         $mi = count($main);
@@ -109,10 +161,24 @@ class submit{
         }
     }
     function return_book_name($book_id){
-        $sql = "SELECT * FROM books_info WHERE user_id = :user_id";
+        $book_id = htmlspecialchars(htmlentities(trim($book_id)));
+        $this->term_name = htmlspecialchars(htmlentities(trim($this->term_name)));
+        $sql = "SELECT * FROM $this->term_name WHERE id = :id";
         $this->pdo->query($sql);
-        $this->pdo->bind(':user_id',$_SESSION['user_id']);
+        $this->pdo->bind(':id',$book_id);
         $result = $this->pdo->resultSet();
+        return ($result);
+    }
+
+    function show_all_book(){
+        $all=Array();
+        $count = count($this->show_info());
+        $info =$this->show_info();
+        for($i=0;$i<$count;$i++){
+            $r=$this->return_book_name($info[$i]);
+            array_push($all,$r);
+        }
+        return $all;
     }
         
 }

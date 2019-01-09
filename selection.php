@@ -24,20 +24,20 @@
 
         <section class="container selection_body mt-4">
 
-        <form action="test/submit.php" method="post" class="pb-5" id="form_inputs">
+        <form action="submit_selection.php" method="post" class="pb-5" id="form_inputs">
         <article class="container row pt-2">
 
             <div class="form-inline ">
                 
                 <label class="my-1 mr-2" for="inlineFormCustomSelectPref">ورودی سال</label>
-                <select class="custom-select my-1 mr-sm-2" name="name[]" id="intry">
+                <select class="custom-select my-1 mr-sm-2" name="a[]" id="intry">
                     <option selecte value="">انتخاب کنید...</option>
                     <option value="year_94_95">94-95</option>
                     <option value="year_95_96">95-96</option>
                     <option value="year_96_97">96-97</option>
                 </select>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <label class="my-1 mr-2" name="name[]" for="inlineFormCustomSelectPref">انتخاب کتاب از ترم</label>
+                <label class="my-1 mr-2" name="a[]" for="inlineFormCustomSelectPref">انتخاب کتاب از ترم</label>
                 <select class="custom-select my-1 mr-sm-2" id="term_name">
                     <option selected>انتخاب کنید....</option>
                     <option value="1">یک</option>
