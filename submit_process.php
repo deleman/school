@@ -7,6 +7,8 @@ class submit{
     private $base =[1,2,3,null,null,null,null,null,null,null,null];
     private $main =Array();
     private $term_name;
+    private $all_id_book=Array();
+    private $all_name_book=Array();
     public function __construct(){
         $this->pdo= new Database();
     }
@@ -15,18 +17,14 @@ class submit{
         if(count($this->show_info())){
             //your are inserted before
             //should update it
-            echo 'cout it has <br>';
+            echo '---';print_r($info['a']);echo '---';
             $this->term_name =array_shift($info['a']);
             $this->main=$info['a'];
             $count_info =count($info['a']);
-            echo 'cout is =>'.$count_info.'<br >';
             for($i=$count_info;$i<count($this->base);$i++){
                 array_push($this->main,0);
             }
             echo '<pre>';
-                print_r($info);
-                print_r($this->main);
-
             echo '</pre>';
             // $info = $this->solve($info['a'],$this->main);
             $sql = "UPDATE `books_info` SET `term_name`=:term_name,`bokk_1`=:b_1,`bokk_2`=:b_2,
@@ -160,6 +158,7 @@ class submit{
             return $main;
         }
     }
+    //return a book name
     function return_book_name($book_id){
         $book_id = htmlspecialchars(htmlentities(trim($book_id)));
         $this->term_name = htmlspecialchars(htmlentities(trim($this->term_name)));
@@ -170,6 +169,7 @@ class submit{
         return ($result);
     }
 
+    //show all info books in array
     function show_all_book(){
         $all=Array();
         $count = count($this->show_info());
@@ -180,6 +180,39 @@ class submit{
         }
         return $all;
     }
+    //show count user for every book
+       public function get_user_id($i){
+        $sql="select 1 from books_info where bokk_1=$i or
+            bokk_2 =$i or bokk_3=$i or bokk_4=$i or bokk_5=$i or
+            bokk_6=$i or bokk_7=$i or bokk_8=$i or bokk_9=$i or bokk_10 =$i";
+            $pdo->query($sql);
+            // $db->bind(':name',$name,PDO::PARAM_STR);
+            // $db->bind(':lname',$lname,PDO::PARAM_STR);
+            // $db->bind(':num',$number);
+            $data =$pdo->resultSet();
+            return count(($data));
+                
+        }
+        //cycle throw books
+        //return a count selecte book in array
+        public function get_id_book_count(){
+            for($i=1;$i<200;$i++){
+                $r =$this->get_user_id("$i");
+                array_push($this->all_id_book,$r);
+            }
+            return $this->all_id_book;
+        }
+
+        //function for convert code_book to name_book
+        //return name of book in a array
+        public function get_name_book_count(){
+            print_r($this->all_id_book);
+            foreach($this->all_id_book as $key => $value){
+                $name = $this->return_book_name($key+1);
+                array_push($this->all_name_book,$name);
+            }
+            return $this->all_name_book;
+        }
         
 }
 
