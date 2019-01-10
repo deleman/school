@@ -60,6 +60,7 @@ class process{
     public function validate_inpus($value){
         return htmlspecialchars(htmlentities(trim($value)));
     }
+
     
    
 }

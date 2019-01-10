@@ -1,6 +1,6 @@
 $(document).ready(function(){
     //hide button submit changes informations
-    $(".hide_show").fadeOut();
+    
     // $(".one").fadeOut(5000);
 
 
@@ -13,9 +13,7 @@ $(document).ready(function(){
     //show term name
 
     // add_inputs("#term_name",bookCount,"term_name.php");
-    $('#closealert').click(function(){
-        alert('ho');
-    })
+    
 
 
     // $("button").click(function(){
@@ -33,7 +31,7 @@ $(document).ready(function(){
 function selectChange(id1,id2,id3){
     if(id1==id3)
         $(id1).change(function(){
-             $(".hide_show").fadeIn(50);
+             $(".hide_show").removeClass('d-none');
             bookCount.name=96;
             //remove all
             remove_inputs();
@@ -43,7 +41,7 @@ function selectChange(id1,id2,id3){
 
     if(id2==id3)
         $(id2).change(function(){
-            $(".hide_show").fadeIn(50);
+            $(".hide_show").removeClass('d-none');           
 
             bookCount.name=96;
             //remove all
@@ -113,8 +111,8 @@ function get_ajax_info(id1,id2,bookCount){
 
                 }
                 create_inputs(s,bookCount);
-                create_inputs(s,bookCount);
-                create_inputs(s,bookCount);
+                // create_inputs(s,bookCount);
+                // create_inputs(s,bookCount);
 
            
             // alert(msg);

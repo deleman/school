@@ -13,14 +13,30 @@
     <body>
     <body class="container-fluid" id="SlateBlue">
         <div id="app">
-        <header class="row" id="header">
-            <div class="text-justify col-6">
-                <h4 class="p-3 m-3 mr-4 text-light">پیش انتخاب واحد </h4>
-            </div>
-            <div class="col-6">
-                <h4 class="p-3 m-3 mr-4 text-light">رشته کامپیوتر</h4>
-            </div>
-        </header>
+        <!-- adding nav bar -->
+            <?php
+            require_once('./submit_process.php');
+            $submit = new submit();
+            ?>
+        <?php require_once('./theme/navbar.php');  ?>
+            <?php
+            //call function menues
+            navbar_start();
+                // var_dump($submit->sign_of_edit());
+                if(($submit->sign_of_edit())){
+                    navbar_link('ویرایش اطلاعات','change_selection.php',true);
+                }else{
+                    navbar_link('ثبت اطلاعات','selection.php',true);
+                }
+                navbar_link('اطلاعات من','submit_selection.php',true);
+                navbar_link(' نمایش کلی','#',true);
+                navbar_link('  راهنما','#',true);
+
+            navbar_destroy();
+            ?>
+
+
+      
 
         <section class="container selection_body mt-4">
 

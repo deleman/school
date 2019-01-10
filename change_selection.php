@@ -11,7 +11,16 @@
             //show proccess in here 
             require_once('./submit_process.php');
             $submit = new submit();
+            
+            echo '<pre>';
+                // print_r($submit->get_all_info('year_94_95','1'));
+                // print_r($submit->show_info());
+                // print_r($submit->get_year());
 
+                // print_r($submit->show_info_selected());
+                
+                print_r($submit->get_all_informations());
+            echo '</pre>';
             if(isset($_POST['submit_selection'])){
                 // echo 'submited <pre>';
                 //print_r($_POST);echo '</pre>';
@@ -32,8 +41,8 @@
             <?php
             //call function menues
             navbar_start();
-                if(($submit->show_info())){
-                    navbar_link('ویرایش اطلاعات','selection.php',true);
+                if(($submit->sign_of_edit())){
+                    navbar_link('ویرایش اطلاعات','change_selection.php',true);
                 }else{
                     navbar_link('ثبت اطلاعات','selection.php',true);
                 }
@@ -80,13 +89,23 @@
     <!-- finish head selection -->
 
     <div calss="row mb-5">  
-   
+        
         <div class="remove_inputs">
+        <?php 
+                echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+                echo '<select class="custom-select" name="a[]" id="inputGroupSelect02">';
+                echo '</select>';
+                    //option is in here    
+                echo '<button type="button" class="close" data-dismiss="alert" id="closealert" aria-label="Close">';
+                echo '<span aria-hidden="true">&times;</span>';
+                echo '</button>';
+
+                echo '</div>';
+                ?>
         </div>
         
-        <button type="submit"  class="btn btn-info ml-2 mt-3 mb-5 hide_show" id="add_selection">افزودن</button>
-        <button type="submit" name="submit_selection"  class="btn btn-primary ml-3 mt-3 mb-5 hide_show" > افزودن کتاب ها</button>
-        <button type="submit" name="submit_selection"  class="btn btn-primary ml-3 mt-3 mb-5 hide_show" >ثبت تغییرات</button>
+        <button type="submit"  class="btn btn-info ml-2 mt-3 mb-5 hide_show d-none" id="add_selection">افزودن</button>
+        <button type="submit" name="submit_selection"  class="btn btn-primary ml-3 mt-3 mb-5 hide_show d-none" >ثبت تغییرات</button>
 </form>
           
 </div>
@@ -98,67 +117,8 @@
 
         <section class="container selection_body mt-4">
 
-            <hr color="orange">
             <!-- finish head selection -->
-            <table class="table table-primary text-right bordered table-hover table-responsive text-dark w-100 table-striped text-nowrap table-fixed">
-                        <thead>
-                        <tr class="bg-secondary">
-                            <th>کد درس</th>
-                            <th>نام درس</th>
-                            <th> نظری</th>
-                            <th> عملی</th>
-                            <th>پیش نیاز</th>
-                            <th>نوع</th>
-                            <td>تعدادد فراد</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php 
-                            foreach($submit->show_all_book() as $key => $value){
-                                foreach ($value as $k => $v) {
-                                        ?>
-                                            <?php
-                                                echo '<tr>';
-                                                echo '<td>'.$v->book_code.'</td>';
-                                                echo '<td>'.$v->book_name.'</td>';
-                                                echo '<td>واحد نظری '.$v->Theoretical_unit.'</td>';
-                                                echo '<td>واحد عملی '.$v->Practical_unit.'</td>';
-                                                echo '<td>پیش نیاز '.$v->prerequisite.'</td>';
-                                                echo '<td>'.$v->book_type.'</td>';
-                                                echo '<td>';
-                                                       
-                                                       ($submit->get_id_book_count());
-                                                        ($submit->get_name_book_count());
-                                                        
-                                                        // print_r($submit->filter_user_book_info());
-                                                        foreach($submit->filter_user_book_info() as $key => $value){
-                                                            // print_r($value);
-                                                            foreach($value as $k=>$s){
-                                                               
-                                                                if(($v->id==$s[0])){
-                                                                    
-                                                                    echo $value[2];
-                                                                }
-                                                            }
-                                                        }
-                                                           
-                                                       
-                                                       
-                                                echo '</td>';
-                                                echo '</tr>';
-
-                                            ?>
-
-                                    
-                                        <?php
-                                }
-                            }
-                        
-                        
-                        
-                        ?>
-                   </tbody>
-                </table>
+           
             <article calss="row mb-5">  
     
 
@@ -197,7 +157,6 @@
         //finish show alert
             //add foot 
             require_once('./theme/footer.php');
-            echo '<script src="./js/submit_js.js"></script>';
             //show alrts
             
             if(isset( $alert['code'])){   
@@ -213,7 +172,7 @@
             }
 
         ?>
-        <!-- <script src="./js/submit_selection.js"></script> -->
+        <script src="./js/change_selection.js"></script>
         </div>
 
     </body>

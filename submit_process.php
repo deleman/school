@@ -17,11 +17,16 @@ class submit{
         //validate information inserted by user
         //1-user must select
         echo $this->sum_units($info['a']);
-        if($this->sum_units($info['a'])>20){
+        if($this->sum_units($info['a'])>20 ){
             //alert your unit selected is greater than 20 || show error in modal code 5
             return ['code'=>5,'info'=>'تعداد واحدهای شما بیشتر از 20 است!!'];
 
-        }else{
+        }elseif($this->sum_units($info['a'])<14 ){
+            //alert your unit selected is greater than 20 || show error in modal code 5
+            return ['code'=>5,'info'=>'تعداد واحدهای شما کمتر از 20 است!!'];
+
+        }
+        else{
 
             if($this->is_repeat_selection($info['a'])){
                 //your informaton is not reapret
@@ -37,6 +42,12 @@ class submit{
             //your are inserted before
             //should update it
             $this->term_name =array_shift($info['a']);
+            //save it in a session
+            $_SESSION['term_name']=$this->term_name;
+            
+            //save term number 
+            $_SESSION['term_number'] =($info['a'])[0];
+
             $this->main=$info['a'];
             $count_info =count($info['a']);
             for($i=$count_info;$i<count($this->base);$i++){
@@ -162,6 +173,7 @@ class submit{
             
         }
         array_shift($info);
+       
         return ($info);
     }
 
@@ -197,9 +209,10 @@ class submit{
             array_push($all,$r);
         }
         return $all;
+
     }
     //show count user for every book
-       public function get_user_id($i){
+    public function get_user_id($i){
         $sql="select 1 from books_info where bokk_1=$i or
             bokk_2 =$i or bokk_3=$i or bokk_4=$i or bokk_5=$i or
             bokk_6=$i or bokk_7=$i or bokk_8=$i or bokk_9=$i or bokk_10 =$i";
@@ -213,70 +226,70 @@ class submit{
         }
         //cycle throw books
         //return a count selecte book in array
-        public function get_id_book_count(){
-            $this->all_id_book=Array();
-            $h=0;
-            for($i=1;$i<100;$i++){
-                // if(!$this->remove_empty_internal($this->get_user_id($i))){
+    public function get_id_book_count(){
+        $this->all_id_book=Array();
+        $h=0;
+        for($i=1;$i<100;$i++){
+            // if(!$this->remove_empty_internal($this->get_user_id($i))){
 
-                // }else{
-                    array_push($this->all_id_book,$this->get_user_id($i));
-                    $h++;
-                // }
+            // }else{
+                array_push($this->all_id_book,$this->get_user_id($i));
+                $h++;
+            // }
+        }
+        // print_r($this->all_id_book);
+        return $this->all_id_book;
+    }
+
+    //function for convert code_book to name_book
+    //return name of book in a array
+    public function get_name_book_count(){
+        //print_r($this->all_id_book);
+        $this->all_name_book=Array();
+        $c=count($this->all_id_book);
+
+        for($i=$c-1;$i>=0;$i--){
+            if($this->all_id_book[$i] ==0 || $this->all_id_book==''){
+                array_pop($this->all_id_book);
+            }else{
+                break;
             }
-            // print_r($this->all_id_book);
-            return $this->all_id_book;
         }
 
-        //function for convert code_book to name_book
-        //return name of book in a array
-        public function get_name_book_count(){
-            //print_r($this->all_id_book);
-            $this->all_name_book=Array();
-            $c=count($this->all_id_book);
-
-            for($i=$c-1;$i>=0;$i--){
-                if($this->all_id_book[$i] ==0 || $this->all_id_book==''){
-                    array_pop($this->all_id_book);
-                }else{
-                    break;
-                }
-            }
-
-            foreach($this->all_id_book as $key => $value){
-                
-                
-                $name = $this->return_book_name($key+1);
-                array_push($this->all_name_book,$name);
-            }
-            return $this->all_name_book;
+        foreach($this->all_id_book as $key => $value){
+            
+            
+            $name = $this->return_book_name($key+1);
+            array_push($this->all_name_book,$name);
         }
-        public function remove_empty_internal($value) {
-            if(!empty($value)){
-                if($value != 0){
-                    return $value;
-                }
+        return $this->all_name_book;
+    }
+    public function remove_empty_internal($value) {
+        if(!empty($value)){
+            if($value != 0){
+                return $value;
             }
         }
+    }
 
         //retrive filted books_info base on selected option by user
         //filter book_info user
-        public function filter_user_book_info(){
-           $all=Array();
-            foreach($this->all_name_book as $key=>$value){
-                $show_all=Array();
-                foreach($this->all_id_book as $k => $v){
-                    if($value[0]->id == $k+1){
-                        array_push($show_all,$value[0]->id);
-                        array_push($show_all,$value[0]->book_name);
-                        array_push($show_all,$v);
-                    }
+    public function filter_user_book_info(){
+        $all=Array();
+        foreach($this->all_name_book as $key=>$value){
+            $show_all=Array();
+            foreach($this->all_id_book as $k => $v){
+                if($value[0]->id == $k+1){
+                    array_push($show_all,$value[0]->id);
+                    array_push($show_all,$value[0]->book_name);
+                    array_push($show_all,$v);
                 }
-                array_push($all,$show_all);
-                
             }
-            return $all;
+            array_push($all,$show_all);
+            
         }
+        return $all;
+    }
       
     function sum_units($info){
         $this->term_name = array_shift($info);
@@ -310,6 +323,103 @@ class submit{
         }
         return true;
     }
+
+    //cout of number books selected by user
+    public function sign_of_edit(){
+        return count($this->show_info());
+    }
+
+    //function for get information selected by user in  table books
+    public function get_all_info($year,$id,$all=false){
+        $sql = "SELECT * FROM ".$year." WHERE id= :id";
+        $this->pdo->bind(':id',$id);            
+        $this->pdo->query($sql);
+        $r= $this->pdo->resultSet();
+        $h=Array();
+        foreach ($r as $key => $value) {
+            array_push($h,$value->id);
+            array_push($h,'کد '.$value->book_code);
+            array_push($h,$value->book_name);
+            array_push($h,'واحد نظری '.$value->Theoretical_unit);
+            array_push($h,'واحد عملی '.$value->Practical_unit);
+            array_push($h,' پیش نیاز '.$value->prerequisite);
+            array_push($h,' نوع کتاب '.$value->book_type);
+        }
+        
+        return $h;
+    }
+
+    public function get_year(){
+        $sql = "SELECT * FROM books_info WHERE user_id = :user_id";
+        $this->pdo->query($sql);
+        $this->pdo->bind(':user_id',$_SESSION['user_id']);
+        $result = $this->pdo->resultSet();
+        return ($result[0]->term_name); 
+    }
+    //show all user selected books informations
+    function show_info_selected(){
+        $r= $this->show_info();
+        
+        $all=Array();
+        foreach($this->show_info() as $key => $value){
+            $sql = "SELECT * FROM ".$this->get_year()." WHERE id = :user_id";
+            $this->pdo->query($sql);
+            $this->pdo->bind(':user_id',$value);
+            $r = $this->pdo->resultSet();
+            array_push($all,$r);
+        }
+
+        return $all;
+    }
+
+    
+    //fajlfja
+    public function get_all_informations(){
+        $term_name = $this->get_year();//level 1
+        $all=Array();//level 2
+        foreach($this->show_info() as $key => $value ){
+            array_push($all,$this->get_term_number(3)); 
+        }
+
+        //foreach in term_number array for get all information in it
+        // $result = Array();
+        // foreach($all as $key => $value){
+        //     array_push($result,$this->get_all_info_by_term_name($this->get_year(),$value));
+        // }
+        // return $result;
+
+        print_r($this->get_all_info_by_term_name('year_94_95',1));
+
+    }
+
+    public function get_term_number($book_id){
+
+        $sql = "SELECT term_name FROM ".$this->get_year()." WHERE id= :book_id";
+        $this->pdo->query($sql);
+        $this->pdo->bind(':book_id',$book_id);
+
+        return $this->pdo->resultSet()[0]->term_name;
+    }
+
+    public function get_all_info_by_term_name($year,$id,$all=false){
+        $sql = "SELECT * FROM ".$year." WHERE term_name=:id";
+        $this->pdo->bind(':id',$id,PDO::PARAM_INT);            
+        $this->pdo->query($sql);
+        $r= $this->pdo->resultSet();
+        $h=Array();
+        foreach ($r as $key => $value) {
+            array_push($h,$value->id);
+            array_push($h,'کد '.$value->book_code);
+            array_push($h,$value->book_name);
+            array_push($h,'واحد نظری '.$value->Theoretical_unit);
+            array_push($h,'واحد عملی '.$value->Practical_unit);
+            array_push($h,' پیش نیاز '.$value->prerequisite);
+            array_push($h,' نوع کتاب '.$value->book_type);
+        }
+        
+        return $h;
+    }
+
 }
 
 
