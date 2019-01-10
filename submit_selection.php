@@ -13,9 +13,9 @@
             $submit = new submit();
 
             if(isset($_POST['submit_selection'])){
-                echo 'submited <pre>';
-                print_r($_POST);echo '</pre>';
-                $submit->insert_info($_POST);
+                // echo 'submited <pre>';
+                //print_r($_POST);echo '</pre>';
+                $alert = $submit->insert_info($_POST);
             }else{
                 echo 'false';
             }
@@ -81,7 +81,7 @@
         </div>
         
         <button type="submit"  class="btn btn-info ml-2 mt-3 mb-5" id="add_selection">افزودن</button>
-        <button type="submit" name="submit_selection"  class="btn btn-primary ml-3 mt-3 mb-5" >ثبت اطلاعات</button>
+        <button type="submit" name="submit_selection"  class="btn btn-primary ml-3 mt-3 mb-5" >ثبت تغییرات</button>
 </form>
           
 </div>
@@ -95,7 +95,7 @@
 
             <hr color="orange">
             <!-- finish head selection -->
-            <table class="table table-primary table-hover table-responsive text-dark w-100 table-striped text-nowrap table-fixed">
+            <table class="table table-primary text-right bordered table-hover table-responsive text-dark w-100 table-striped text-nowrap table-fixed">
                         <thead>
                         <tr class="bg-secondary">
                             <th>کد درس</th>
@@ -104,6 +104,7 @@
                             <th> عملی</th>
                             <th>پیش نیاز</th>
                             <th>نوع</th>
+                            <td>تعدادد فراد</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -119,6 +120,26 @@
                                                 echo '<td>واحد عملی '.$v->Practical_unit.'</td>';
                                                 echo '<td>پیش نیاز '.$v->prerequisite.'</td>';
                                                 echo '<td>'.$v->book_type.'</td>';
+                                                echo '<td>';
+                                                       
+                                                       ($submit->get_id_book_count());
+                                                        ($submit->get_name_book_count());
+                                                        
+                                                        // print_r($submit->filter_user_book_info());
+                                                        foreach($submit->filter_user_book_info() as $key => $value){
+                                                            // print_r($value);
+                                                            foreach($value as $k=>$s){
+                                                               
+                                                                if(($v->id==$s[0])){
+                                                                    
+                                                                    echo $value[2];
+                                                                }
+                                                            }
+                                                        }
+                                                           
+                                                       
+                                                       
+                                                echo '</td>';
                                                 echo '</tr>';
 
                                             ?>
@@ -148,14 +169,44 @@
 
         <section>
         <?php
-            echo '<pre>echo';
-            print_r($submit->get_id_book_count());
-            echo '</pre>';
+            
+        //show alert
+        if(isset($alert['code'])){ ?>
 
-
+            <div class="modal fade " id="newModal" role="dialog">
+            <div class="modal-dialog">
+            
+            <div class="modal-content text-right <?php if($alert['code']==4){echo 'bg-primary text-light';}else{echo 'bg-warning';} ?> ">
+                <div class="modal-header my-modal-header" >
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <p class="modal-title my-modal-title"><?php echo $alert['info']; ?></p>
+                </div>
+                <div class="modal-body">
+                <p>لطفا مشخصات خود را درست وارد کنید!!!</p>
+                </div>
+            </div>
+            
+            </div>
+            </div>
+        <?php } 
+        //finish show alert
             //add foot 
             require_once('./theme/footer.php');
             add_index_file(true);
+            //show alrts
+            
+            if(isset( $alert['code'])){   
+                echo "<script>
+                $(document).ready(function(){
+                    $('#newModal').modal('show');
+                    
+                    $('#button1').click(function(){
+                        $('#newModal').modal('hide');
+                    });
+                });
+                </script>";
+            }
+
         ?>
         <!-- <script src="./js/submit_selection.js"></script> -->
         </div>

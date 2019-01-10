@@ -14,18 +14,35 @@ class submit{
     }
     //insert info to the database
     public function insert_info($info){
+        //validate information inserted by user
+        //1-user must select
+        echo $this->sum_units($info['a']);
+        if($this->sum_units($info['a'])>20){
+            //alert your unit selected is greater than 20 || show error in modal code 5
+            return ['code'=>5,'info'=>'تعداد واحدهای شما بیشتر از 20 است!!'];
+
+        }else{
+
+            if($this->is_repeat_selection($info['a'])){
+                //your informaton is not reapret
+            }else{
+                //your informaion is repeat code 3
+                return ['code'=>3,'info'=>'نام کتاب های شما تکراری است!!'];
+            }
+        }
+        $this->term_name=null;
+        //function for sum selected unit
+
         if(count($this->show_info())){
             //your are inserted before
             //should update it
-            echo '---';print_r($info['a']);echo '---';
             $this->term_name =array_shift($info['a']);
             $this->main=$info['a'];
             $count_info =count($info['a']);
             for($i=$count_info;$i<count($this->base);$i++){
                 array_push($this->main,0);
             }
-            echo '<pre>';
-            echo '</pre>';
+
             // $info = $this->solve($info['a'],$this->main);
             $sql = "UPDATE `books_info` SET `term_name`=:term_name,`bokk_1`=:b_1,`bokk_2`=:b_2,
             `bokk_3`=:b_3,`bokk_4`=:b_4,
@@ -48,9 +65,10 @@ class submit{
             $this->pdo->bind(':user_id',$_SESSION['user_id'],PDO::PARAM_INT);
 
             if($this->pdo->execute()){
-                echo 'ture';
+                return ['code'=>4,'info'=>'اطلاعت شما با موفقیت ثبت گردید!!'];               
             }else{
-                echo 'false';
+                //code 7
+                return ['code'=>7,'info'=>'خطایی در وارد کردن اطلاعات روی داده است!!'];
             }
         }catch (PDOException $e) {
         //    echo $e->getMessage(); 
@@ -81,9 +99,9 @@ class submit{
             $this->pdo->bind(':b_9',$this->main[8],PDO::PARAM_INT);
             $this->pdo->bind(':b_10',$this->main[9],PDO::PARAM_INT);
             if($this->pdo->execute()){
-                // echo 'ture';
+                return ['code'=>4,'info'=>'اطلاعت شما با موفقیت ثبت گردید!!'];
             }else{
-                echo 'false';
+                return ['code'=>7,'info'=>'خطایی در وارد کردن اطلاعات روی داده است!!'];
             }
         }catch (PDOException $e) {
         //    echo $e->getMessage(); 
@@ -185,35 +203,113 @@ class submit{
         $sql="select 1 from books_info where bokk_1=$i or
             bokk_2 =$i or bokk_3=$i or bokk_4=$i or bokk_5=$i or
             bokk_6=$i or bokk_7=$i or bokk_8=$i or bokk_9=$i or bokk_10 =$i";
-            $pdo->query($sql);
+            $this->pdo->query($sql);
             // $db->bind(':name',$name,PDO::PARAM_STR);
             // $db->bind(':lname',$lname,PDO::PARAM_STR);
             // $db->bind(':num',$number);
-            $data =$pdo->resultSet();
+            $data =$this->pdo->resultSet();
             return count(($data));
                 
         }
         //cycle throw books
         //return a count selecte book in array
         public function get_id_book_count(){
-            for($i=1;$i<200;$i++){
-                $r =$this->get_user_id("$i");
-                array_push($this->all_id_book,$r);
+            $this->all_id_book=Array();
+            $h=0;
+            for($i=1;$i<100;$i++){
+                // if(!$this->remove_empty_internal($this->get_user_id($i))){
+
+                // }else{
+                    array_push($this->all_id_book,$this->get_user_id($i));
+                    $h++;
+                // }
             }
+            // print_r($this->all_id_book);
             return $this->all_id_book;
         }
 
         //function for convert code_book to name_book
         //return name of book in a array
         public function get_name_book_count(){
-            print_r($this->all_id_book);
+            //print_r($this->all_id_book);
+            $this->all_name_book=Array();
+            $c=count($this->all_id_book);
+
+            for($i=$c-1;$i>=0;$i--){
+                if($this->all_id_book[$i] ==0 || $this->all_id_book==''){
+                    array_pop($this->all_id_book);
+                }else{
+                    break;
+                }
+            }
+
             foreach($this->all_id_book as $key => $value){
+                
+                
                 $name = $this->return_book_name($key+1);
                 array_push($this->all_name_book,$name);
             }
             return $this->all_name_book;
         }
-        
+        public function remove_empty_internal($value) {
+            if(!empty($value)){
+                if($value != 0){
+                    return $value;
+                }
+            }
+        }
+
+        //retrive filted books_info base on selected option by user
+        //filter book_info user
+        public function filter_user_book_info(){
+           $all=Array();
+            foreach($this->all_name_book as $key=>$value){
+                $show_all=Array();
+                foreach($this->all_id_book as $k => $v){
+                    if($value[0]->id == $k+1){
+                        array_push($show_all,$value[0]->id);
+                        array_push($show_all,$value[0]->book_name);
+                        array_push($show_all,$v);
+                    }
+                }
+                array_push($all,$show_all);
+                
+            }
+            return $all;
+        }
+      
+    function sum_units($info){
+        $this->term_name = array_shift($info);
+        $sum=0;
+        foreach($info as $key => $value){
+
+            if((($this->return_book_name($value))[0])->Theoretical_unit){
+                $sum += ((($this->return_book_name($value))[0])->Theoretical_unit);
+            }else{
+                if((($this->return_book_name($value))[0])->Practical_unit ){
+                    $sum += ((($this->return_book_name($value))[0])->Practical_unit);
+                }
+            }
+        }
+        return $sum;
+    }
+
+    function is_repeat_selection($info){
+        array_shift($info);
+        foreach($info as $key => $value){
+            $n=$value;
+            $count=0;
+            foreach($info as $k => $v){
+                if($n==$v){
+                    $count++;
+                }
+            }
+            if($count>=2){
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 

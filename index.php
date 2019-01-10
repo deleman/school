@@ -81,6 +81,8 @@
                             $('#newModal').modal('hide');
                         });
                     });
-                    </script>";}?>
+                    </script>";
+            }
+    ?>
     </body>
 </html>
