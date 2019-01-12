@@ -15,7 +15,6 @@
                 // print_r($submit->get_all_info('year_94_95','1'));
                 // print_r($submit->show_info());
                 // print_r($submit->get_year());
-
                 // print_r($submit->show_info_selected());
                 
             echo '</pre>';
@@ -63,8 +62,14 @@
         <select class="custom-select my-1 mr-sm-2"  name="a[]" id="intry">
             <option  value="">انتخاب کنید...</option>
             <?php foreach($submit->get_all_term_names() as $key => $value){ ?>
+            <option value="year_<?php echo $value;?>"  <?php 
+                $year = trim($submit->get_year());
+                $val =trim('year_'.trim($value));
+                if($year == $val){
+                    echo 'selected';
             
-            <option value="year_<?php echo $value." \"";if($submit->get_year() == 'year_'.$value) echo 'selected'; ?>><?php echo $value; ?></option>
+                }    
+            ?>><?php echo $value; ?></option>
             
             <?php } ?>
         </select>
@@ -132,24 +137,7 @@
 
 
 
-        <section class="container selection_body mt-4">
-
-            <!-- finish head selection -->
-           
-            <article calss="row mb-5">  
-    
-
-            </article>
-
-            <article>    
-
-            </article>
-
-            <article>
-       
-            </article>
-
-        <section>
+        
         <?php
             
         //show alert

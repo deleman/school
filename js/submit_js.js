@@ -32,6 +32,7 @@ $(document).ready(function(){
 function selectChange(id1,id2,id3){
     if(id1==id3)
         $(id1).change(function(){
+            $(".hide_show").removeClass('d-none');
              $(".hide_show").fadeIn(50);
             bookCount.name=96;
             //remove all
@@ -42,7 +43,7 @@ function selectChange(id1,id2,id3){
 
     if(id2==id3)
         $(id2).change(function(){
-            $(".hide_show").fadeIn(50);
+            $(".hide_show").removeClass('d-none');
 
             bookCount.name=96;
             //remove all

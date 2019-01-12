@@ -84,9 +84,8 @@
         <div class="remove_inputs">
         </div>
         
-        <button type="submit"  class="btn btn-info ml-2 mt-3 mb-5 hide_show" id="add_selection">افزودن</button>
-        <button type="submit" name="submit_selection"  class="btn btn-primary ml-3 mt-3 mb-5 hide_show" > افزودن کتاب ها</button>
-        <button type="submit" name="submit_selection"  class="btn btn-primary ml-3 mt-3 mb-5 hide_show" >ثبت تغییرات</button>
+        <button type="submit"  class="hide_show btn btn-info ml-2 mt-3 mb-5 d-none" id="add_selection">افزودن</button>
+        <button type="submit" name="submit_selection"  class="hide_show btn btn-primary ml-3 mt-3 mb-5 d-none" >ثبت تغییرات</button>
 </form>
           
 </div>
