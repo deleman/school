@@ -29,7 +29,8 @@ if(isset($_POST['submit_sign_in'])){
     $infos->validate_user('http://localhost:8080/u1/selection.php','http://localhost:8080/u1/index.php?alert=true');
 
 }else{
-    
+    header("Location: http://localhost:8080/u1/?alert=invalid");
+    exit();
 }
 ?>
 
