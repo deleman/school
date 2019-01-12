@@ -11,13 +11,14 @@
             //show proccess in here 
             require_once('./submit_process.php');
             $submit = new submit();
-            echo 'session value is '.$_SESSION['user_id'].'<br >';
+            
             if(isset($_POST['submit_selection'])){
-                // echo 'submited <pre>';
-                //print_r($_POST);echo '</pre>';
-                $alert = $submit->insert_info($_POST);
+                
+                if(count($submit->show_info())){
+                    $alert = $submit->insert_info($_POST);
+                }
             }else{
-                echo 'false';
+                //echo 'false';
             }
             $submit->show_info();
 
@@ -157,6 +158,15 @@
                         
                         ?>
                    </tbody>
+                   <tfoot>
+                       <tr  class="bg-success " style="color:floralwhite;">
+                           <td>ورودی</td>
+                           <td><?php echo substr($submit->get_year(),5);?></td>
+                           <td>جمع کل واحد های گرفته شده</td>
+                           <td><?php echo $_SESSION['sum_units'];?></td>
+                           <td colspan="3"></td>
+                       </tr>
+                   </tfoot>
                 </table>
             <article calss="row mb-5">  
     

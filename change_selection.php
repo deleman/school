@@ -11,16 +11,7 @@
             require_once('./submit_process.php');
             $submit = new submit();
             
-            echo '<pre>';
-                // print_r($submit->get_all_info('year_94_95','1'));
-                // print_r($submit->show_info());
-                // print_r($submit->get_year());
-                // print_r($submit->show_info_selected());
-                
-            echo '</pre>';
             if(isset($_POST['submit_selection'])){
-                // echo 'submited <pre>';
-                //print_r($_POST);echo '</pre>';
                 $alert = $submit->insert_info($_POST);
             }else{
                 echo 'false';

@@ -6,7 +6,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php
             require_once('./theme/header.php');
-            require_once('test.php');
+            echo $_SESSION['user_id'];
+            
+                if(!isset($_POST['submit_selection'])){  
+                    require_once('test.php');
+                }
+            
+            //show proccess in here 
+            require_once('./submit_process.php');
+            $submit = new submit();
+            if(isset($_POST['submit_selection'])){    
+                if(count($submit->show_info())<=0){
+                    $alert = $submit->insert_info_before_saveed($_POST);
+                    echo '<pre> alert informations => ';print_r($alert);echo '</pre>';
+                }
+            }
             // echo 'session'.$_SESSION['user_id'].'<br ';
         ?>
     </head>
@@ -34,13 +48,31 @@
 
             navbar_destroy();
             ?>
+        <?php
+        //show alert
+        if(isset($alert['code'])){ ?>
 
-
+            <div class="modal fade " id="newModal" role="dialog">
+            <div class="modal-dialog">
+            
+            <div class="modal-content text-right <?php if($alert['code']==4){echo 'bg-primary text-light';}else{echo 'bg-warning';} ?> ">
+                <div class="modal-header my-modal-header" >
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <p class="modal-title my-modal-title"><?php echo $alert['info']; ?></p>
+                </div>
+                <div class="modal-body">
+                <p>لطفا مشخصات خود را درست وارد کنید!!!</p>
+                </div>
+            </div>
+            
+            </div>
+            </div>
+        <?php } ?>
       
 
         <section class="container selection_body mt-4">
 
-        <form action="submit_selection.php" method="post" class="pb-5" id="form_inputs">
+        <form action="<?php if(count($submit->show_info())){ echo 'submit_selection.php';}else{echo 'selection.php';} ?>" method="post" class="pb-5" id="form_inputs">
         <article class="container row pt-2">
 
             <div class="form-inline ">
@@ -87,6 +119,18 @@
         <?php
             require_once('./theme/footer.php');
             add_index_file(true);
+
+            if(isset( $alert['code'])){   
+                echo "<script>
+                $(document).ready(function(){
+                    $('#newModal').modal('show');
+                    
+                    $('#button1').click(function(){
+                        $('#newModal').modal('hide');
+                    });
+                });
+                </script>";
+            }
         ?>
         </div>
     </body>
