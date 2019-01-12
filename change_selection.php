@@ -7,7 +7,6 @@
         <?php
             require_once('./theme/header.php');
             
-            // echo $_SESSION['user_id'];
             //show proccess in here 
             require_once('./submit_process.php');
             $submit = new submit();
@@ -19,7 +18,6 @@
 
                 // print_r($submit->show_info_selected());
                 
-                print_r($submit->get_all_informations());
             echo '</pre>';
             if(isset($_POST['submit_selection'])){
                 // echo 'submited <pre>';
@@ -62,11 +60,13 @@
     <div class="form-inline ">
         
         <label class="my-1 mr-2" for="inlineFormCustomSelectPref">ورودی سال</label>
-        <select class="custom-select my-1 mr-sm-2" name="a[]" id="intry">
-            <option selecte value="">انتخاب کنید...</option>
-            <option value="year_94_95">94-95</option>
-            <option value="year_95_96">95-96</option>
-            <option value="year_96_97">96-97</option>
+        <select class="custom-select my-1 mr-sm-2"  name="a[]" id="intry">
+            <option  value="">انتخاب کنید...</option>
+            <?php foreach($submit->get_all_term_names() as $key => $value){ ?>
+            
+            <option value="year_<?php echo $value." \"";if($submit->get_year() == 'year_'.$value) echo 'selected'; ?>><?php echo $value; ?></option>
+            
+            <?php } ?>
         </select>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <label class="my-1 mr-2" name="a[]" for="inlineFormCustomSelectPref">انتخاب کتاب از ترم</label>
@@ -92,20 +92,37 @@
         
         <div class="remove_inputs">
         <?php 
-                echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
-                echo '<select class="custom-select" name="a[]" id="inputGroupSelect02">';
-                echo '</select>';
-                    //option is in here    
-                echo '<button type="button" class="close" data-dismiss="alert" id="closealert" aria-label="Close">';
-                echo '<span aria-hidden="true">&times;</span>';
-                echo '</button>';
+                foreach($submit->show_info() as $key => $book_id){
+                    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+                        echo '<select class="custom-select" name="a[]" id="inputGroupSelect02">';
+                            //option is in here 
+                            $selected_books_id=$submit->show_info();
+                            foreach($submit->get_all_info_by_term_name() as $key => $value){
+                                if($key % 7 ==0){
+                                    echo "<option ";
+                                    if($value ==$book_id){echo 'selected';};
+                                    echo ">";
+                                    
+                                }
+                                echo $value.' - ';
+                                if($key % 7 ==6){
+                                    echo '</option>';
+                                }
 
-                echo '</div>';
+                            }
+                        echo '</select>';
+                        echo '<button type="button" class="close" data-dismiss="alert" id="closealert" aria-label="Close">';
+                            echo '<span aria-hidden="true">&times;</span>';
+                        echo '</button>';
+                    echo '</div>';
+                    }
+
+
                 ?>
         </div>
         
-        <button type="submit"  class="btn btn-info ml-2 mt-3 mb-5 hide_show d-none" id="add_selection">افزودن</button>
-        <button type="submit" name="submit_selection"  class="btn btn-primary ml-3 mt-3 mb-5 hide_show d-none" >ثبت تغییرات</button>
+        <button type="submit"  class="btn btn-info ml-2 mt-3 mb-5 hide_show " id="add_selection">افزودن</button>
+        <button type="submit" name="submit_selection"  class="btn btn-primary ml-3 mt-3 mb-5 hide_show " >ثبت تغییرات</button>
 </form>
           
 </div>

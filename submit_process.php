@@ -192,7 +192,7 @@ class submit{
     function return_book_name($book_id){
         $book_id = htmlspecialchars(htmlentities(trim($book_id)));
         $this->term_name = htmlspecialchars(htmlentities(trim($this->term_name)));
-        $sql = "SELECT * FROM $this->term_name WHERE id = :id";
+        $sql = "SELECT * FROM ".$this->get_year()." WHERE id = :id";
         $this->pdo->query($sql);
         $this->pdo->bind(':id',$book_id);
         $result = $this->pdo->resultSet();
@@ -378,17 +378,17 @@ class submit{
         $term_name = $this->get_year();//level 1
         $all=Array();//level 2
         foreach($this->show_info() as $key => $value ){
-            array_push($all,$this->get_term_number(3)); 
+            array_push($all,$this->get_term_number($value)); 
         }
+        // return $all;
+        // foreach in term_number array for get all information in it
+        $result = Array();
+        foreach($all as $key => $value){
+            array_push($result,$this->get_all_info_by_term_name($value));
+        }
+        return $result;
 
-        //foreach in term_number array for get all information in it
-        // $result = Array();
-        // foreach($all as $key => $value){
-        //     array_push($result,$this->get_all_info_by_term_name($this->get_year(),$value));
-        // }
-        // return $result;
-
-        print_r($this->get_all_info_by_term_name('year_94_95',1));
+        return ($this->get_all_info_by_term_name(1));
 
     }
 
@@ -401,9 +401,11 @@ class submit{
         return $this->pdo->resultSet()[0]->term_name;
     }
 
-    public function get_all_info_by_term_name($year,$id,$all=false){
-        $sql = "SELECT * FROM ".$year." WHERE term_name=:id";
-        $this->pdo->bind(':id',$id,PDO::PARAM_INT);            
+    //get all books in spicefic term_name
+    public function get_all_info_by_term_name(){
+        // $sql = "SELECT * FROM ".$this->get_year()." WHERE term_name=:id";
+        $sql = "SELECT * FROM ".$this->get_year()."";
+
         $this->pdo->query($sql);
         $r= $this->pdo->resultSet();
         $h=Array();
@@ -415,6 +417,20 @@ class submit{
             array_push($h,'واحد عملی '.$value->Practical_unit);
             array_push($h,' پیش نیاز '.$value->prerequisite);
             array_push($h,' نوع کتاب '.$value->book_type);
+        }
+        
+        return $h;
+    }
+
+    //get all term_names from table ..
+    public function get_all_term_names(){
+        // $sql = "SELECT * FROM ".$this->get_year()." WHERE term_name=:id";
+        $sql = "SELECT * FROM term_name";
+        $this->pdo->query($sql);
+        $r= $this->pdo->resultSet();
+        $h=Array();
+        foreach ($r as $key => $value) {
+            array_push($h,$value->name);  
         }
         
         return $h;

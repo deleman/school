@@ -1,6 +1,5 @@
 $(document).ready(function(){
     //hide button submit changes informations
-    $(".hide_show").fadeOut();
     // $(".one").fadeOut(5000);
 
 

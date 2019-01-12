@@ -11,7 +11,7 @@
             //show proccess in here 
             require_once('./submit_process.php');
             $submit = new submit();
-
+            echo 'session value is '.$_SESSION['user_id'].'<br >';
             if(isset($_POST['submit_selection'])){
                 // echo 'submited <pre>';
                 //print_r($_POST);echo '</pre>';
@@ -33,7 +33,7 @@
             //call function menues
             navbar_start();
                 if(($submit->show_info())){
-                    navbar_link('ویرایش اطلاعات','selection.php',true);
+                    navbar_link('ویرایش اطلاعات','change_selection.php',true);
                 }else{
                     navbar_link('ثبت اطلاعات','selection.php',true);
                 }
