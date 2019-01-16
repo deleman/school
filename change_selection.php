@@ -35,7 +35,7 @@
                     navbar_link('ثبت اطلاعات','selection.php',true);
                 }
                 navbar_link('اطلاعات من','submit_selection.php',true);
-                navbar_link(' نمایش کلی','#',true);
+                navbar_link(' نمایش کلی','show_all.php',true);
                 navbar_link('  راهنما','#',true);
 
             navbar_destroy();

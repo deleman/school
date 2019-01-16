@@ -345,8 +345,7 @@ class submit{
             }
         }
 
-        foreach($this->all_id_book as $key => $value){
-            
+        foreach($this->all_id_book as $key => $value){     
             
             $name = $this->return_book_name($key+1);
             array_push($this->all_name_book,$name);
