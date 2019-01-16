@@ -14,6 +14,9 @@ $general_info = new show_general_info();
     <?php
     $bool_insert_dot_css=true;
      require_once('./theme/header.php');
+     if(!isset($_SESSION['user_id'])){
+        header("Location:http://localhost:8080/u1/index.php?alert=invalid");
+    }
     ?>
     <link rel="stylesheet" href="./css/show_all.css">
  </head>
@@ -80,9 +83,9 @@ $general_info = new show_general_info();
         ?>
 
 
-  
     <!-- نمایش اطلاعات کلی -->
-    <table class="table table-primary text-right bordered table-hover table-responsive text-dark w-100 table-striped text-nowrap table-fixed">
+    <article class="">
+    <table class="pr-5 table table-primary text-right  bordered table-hover table-responsive text-dark  table-striped text-nowrap table-fixed">
    
     <thead>
         <tr class="bg-secondary">
@@ -105,15 +108,7 @@ $general_info = new show_general_info();
            }
            ?> 
     </table>
-
-
-
-
-
-
-
-
-
+</article>
 
 
 

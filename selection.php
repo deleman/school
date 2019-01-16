@@ -6,7 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php
             require_once('./theme/header.php');
-            echo $_SESSION['user_id'];
+            if(!isset($_SESSION['user_id'])){
+                header("Location:http://localhost:8080/u1/index.php?alert=invalid");
+            }
             
                 if(!isset($_POST['submit_selection'])){  
                     require_once('test.php');

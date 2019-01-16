@@ -6,6 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php
             require_once('./theme/header.php');
+            if(!isset($_SESSION['user_id'])){
+                header("Location:http://localhost:8080/u1/index.php?alert=invalid");
+            }
             
             // echo $_SESSION['user_id'];
             //show proccess in here 
@@ -39,7 +42,7 @@
                     navbar_link('ثبت اطلاعات','selection.php',true);
                 }
                 navbar_link('اطلاعات من','submit_selection.php',true);
-                navbar_link(' نمایش کلی','#',true);
+                navbar_link(' نمایش کلی','show_all.php',true);
                 navbar_link('  راهنما','#',true);
 
             navbar_destroy();

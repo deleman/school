@@ -6,7 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php
             require_once('./theme/header.php');
-            
+            if(!isset($_SESSION['user_id'])){
+                header("Location:http://localhost:8080/u1/index.php?alert=invalid");
+            }
             //show proccess in here 
             require_once('./submit_process.php');
             $submit = new submit();
