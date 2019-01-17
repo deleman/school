@@ -72,20 +72,22 @@ $proc = new process();
 
 if(isset($_POST['name'])){
     
-    $a=($proc->get_all_info($_POST['name']));
-    echo implode(',',$a);
-    
     if(isset($_POST['term_name'])){
         if(strlen($_POST['term_name']) == 25){
+            $a=($proc->get_all_info($_POST['name']));
+            echo implode(',',$a);
             
         }else{
-        $a=($proc->get_all_info($_POST['name'],$_POST['term_name']));
+            echo 'no ';
+            $a=($proc->get_all_info($_POST['name'],$_POST['term_name']));
             
-        $b=($proc->get_all_info($_POST['name'],$_POST['term_name'],true));
-            
+            $b=($proc->get_all_info($_POST['name'],$_POST['term_name'],true));
             echo implode(',',array_merge($a,$b));
         }
-
+        
+    }else{
+    
+    $a=($proc->get_all_info($_POST['name']));
+    echo implode(',',$a);
     }
-
 }
