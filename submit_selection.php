@@ -9,7 +9,49 @@
             if(!isset($_SESSION['user_id'])){
                 header("Location:http://localhost:8080/u1/index.php?alert=invalid");
             }
-            
+            require_once('./show_all_proccess.php');
+            $submit = new submit();
+            $general_info = new show_general_info();
+             //محاسبه ی تعداد تکرار یک کتاب یا تعداد افراد ی که ی ک کتاب را گرفته اند
+                $all_names=Array();
+                $fileter_names = Array();
+                    foreach($general_info->show_all_book() as $key => $value){
+                        foreach($value as $k => $v){
+                            $break=false;
+                            foreach($all_names as $k_all => $v_all){
+                                
+                                if(in_array($v->book_code,$v_all)){
+                                    
+                                    $all_names[$k_all][6]+=1;
+                                    $break=true;
+                                    break;
+                                }
+                                if($break==true ){
+                                    $fileter_names=Array();
+                                    break;
+                                }
+                            }
+                            if($break==true ){
+                                $fileter_names=Array();
+                                break;
+                            }
+                            
+                            array_push($fileter_names,$v->book_code);
+                            array_push($fileter_names,$v->book_name);
+                            array_push($fileter_names,$v->Theoretical_unit);
+                            array_push($fileter_names,$v->Practical_unit);
+                            array_push($fileter_names,$v->prerequisite);
+                            array_push($fileter_names,$v->book_type);
+                            array_push($fileter_names,1);
+                        
+                        }
+                        if(count($fileter_names)){
+                            array_push($all_names,$fileter_names);
+                        }
+                        $fileter_names=Array();
+                    }
+                //پایان محاسبات مربوط به برگرداندن تعداد افراد گرفته شده یک کتاب
+                
             // echo $_SESSION['user_id'];
             //show proccess in here 
             require_once('./submit_process.php');
@@ -103,6 +145,8 @@
 
             <hr color="orange">
             <!-- finish head selection -->
+               
+            
             <table class="table table-primary text-right bordered table-hover table-responsive text-dark w-100 table-striped text-nowrap table-fixed">
                         <thead>
                         <tr class="bg-secondary">
@@ -116,50 +160,18 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php 
-                            foreach($submit->show_all_book() as $key => $value){
-                                foreach ($value as $k => $v) {
-                                        ?>
-                                            <?php
-                                                echo '<tr>';
-                                                echo '<td>'.$v->book_code.'</td>';
-                                                echo '<td>'.$v->book_name.'</td>';
-                                                echo '<td>واحد نظری '.$v->Theoretical_unit.'</td>';
-                                                echo '<td>واحد عملی '.$v->Practical_unit.'</td>';
-                                                echo '<td>پیش نیاز '.$v->prerequisite.'</td>';
-                                                echo '<td>'.$v->book_type.'</td>';
-                                                echo '<td>';
-                                                       
-                                                       ($submit->get_id_book_count());
-                                                        ($submit->get_name_book_count());
-                                                        
-                                                        // print_r($submit->filter_user_book_info());
-                                                        foreach($submit->filter_user_book_info() as $key => $value){
-                                                            // print_r($value);
-                                                            foreach($value as $k=>$s){
-                                                               
-                                                                if(($v->id==$s[0])){
-                                                                    
-                                                                    echo $value[2];
-                                                                }
-                                                            }
-                                                        }
-                                                           
-                                                       
-                                                       
-                                                echo '</td>';
-                                                echo '</tr>';
+                        <?php
+                            foreach($all_names as $key => $value){
+                                    if(in_array($value[0],$submit->show_code_book_selected())){
 
-                                            ?>
-
-                                    
-                                        <?php
-                                }
+                                        echo '<tr>';
+                                            foreach($value as $k => $v){
+                                                echo '<td>'.$v.'</td>';
+                                            }
+                                        echo '</tr>';
+                                    }
                             }
-                        
-                        
-                        
-                        ?>
+                        ?> 
                    </tbody>
                    <tfoot>
                        <tr  class="bg-success " style="color:floralwhite;">

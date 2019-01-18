@@ -531,6 +531,33 @@ class submit{
         return $h;
     }
 
+    //show all code book user selected
+      //show all user selected books informations
+      function show_code_book_selected(){
+        $r= $this->show_info();
+        
+        $all=Array();
+        foreach($this->show_info() as $key => $value){
+            $sql = "SELECT book_code FROM ".$this->get_year()." WHERE id = :user_id";
+            $this->pdo->query($sql);
+            $this->pdo->bind(':user_id',$value);
+            $r = $this->pdo->resultSet();
+            array_push($all,$r);
+        }
+        $total=Array();
+        foreach($all as $Key => $value){
+            array_push($total,$value[0]);
+        }
+        unset($all);
+        unset($r);
+        $home = Array();
+        foreach($total as $key => $value){
+            array_push($home,$value->book_code);
+        }
+
+        return $home;
+    }
+
 }
 
 
